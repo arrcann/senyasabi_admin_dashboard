@@ -604,11 +604,71 @@ input[type=text]:focus, input[type=email]:focus, input[type=password]:focus {
 }
 
 .login-mascot {
-  height: 90px;
+  height: 120px;
   width: auto;
-  margin: 0 auto 10px;
+  margin: 0 auto 12px;
   display: block;
+  filter: drop-shadow(0 6px 12px rgba(79, 50, 34, 0.15));
   animation: float 3s ease-in-out infinite;
+}
+
+/* =========================================
+   WELCOME BANNER WITH MASCOT
+   ========================================= */
+.welcome-banner {
+  background: var(--bg-surface);
+  border: 2px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 24px 32px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--shadow-card);
+  position: relative;
+  overflow: hidden;
+}
+
+.welcome-content {
+  max-width: 650px;
+  z-index: 2;
+}
+
+.welcome-tag {
+  display: inline-block;
+  background: var(--bg-surface-soft);
+  color: var(--ink-secondary);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  border: 1px solid #EBE0C2;
+  margin-bottom: 8px;
+}
+
+.welcome-heading {
+  font-size: 32px;
+  color: var(--ink-primary);
+  line-height: 1.15;
+  margin-bottom: 6px;
+}
+
+.welcome-sub {
+  color: var(--ink-mute);
+  font-size: 15px;
+  margin: 0;
+  font-weight: 500;
+}
+
+.welcome-mascot {
+  height: 125px;
+  width: auto;
+  filter: drop-shadow(0 8px 16px rgba(79, 50, 34, 0.18));
+  animation: float 3.5s ease-in-out infinite;
+  z-index: 2;
+  transform-origin: bottom center;
 }
 
 @keyframes float {

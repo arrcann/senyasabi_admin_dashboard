@@ -49,6 +49,14 @@ const chip=s=>`<span class="chip ${s==='Completed'?'ok':s==='In Progress'?'mid':
 async function overview(){
   const d=await rpc('admin_dashboard_summary'),s=d.stats,q=d.quiz,l=d.lesson_distribution;
   $('#main').innerHTML=`
+  <div class="welcome-banner">
+    <div class="welcome-content">
+      <span class="welcome-tag">Admin Control Center</span>
+      <h1 class="welcome-heading">Welcome Back!</h1>
+      <p class="welcome-sub">Here is what is happening with SenyaSabi learners today.</p>
+    </div>
+    <img src="/mascot-waving.png" alt="Senya mascot" class="welcome-mascot">
+  </div>
   <div class="grid g3">
     ${stat('Registered Learners',num(s.total_users),`${s.pct_one_lesson==null?'–':s.pct_one_lesson}% finished at least one lesson`,'lead')}
     ${stat('Active (Last 7 Days)',num(s.active_7d),`${num(s.active_30d)} in the last 30 days`)}
