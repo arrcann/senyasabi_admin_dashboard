@@ -39,10 +39,10 @@ function go(v,arg){
 }
 
 // ---- helpers ----
-const bar=(label,v,color='var(--teal)')=>`<div class="row"><div class="n">${label}</div><div class="track"><i style="width:${Math.min(100,v||0)}%;background:${color}"></i></div><div class="v">${pct(v)}</div></div>`;
+const bar=(label,v,color='var(--accent-green)')=>`<div class="row"><div class="n">${label}</div><div class="track"><i style="width:${Math.min(100,v||0)}%;background:${color}"></i></div><div class="v">${pct(v)}</div></div>`;
 function donut(d){const t=d.reduce((a,x)=>a+x[1],0),R=40,C=2*Math.PI*R;let o=0;
-  return `<svg viewBox="0 0 100 100" class="donut" role="img" aria-label="Lesson completion distribution">${t?d.map(([,v,c])=>{const l=C*v/t,s=`<circle cx="50" cy="50" r="${R}" fill="none" stroke="${c}" stroke-width="16" stroke-dasharray="${l} ${C-l}" stroke-dashoffset="${-o}" transform="rotate(-90 50 50)"/>`;o+=l;return s}).join(''):`<circle cx="50" cy="50" r="${R}" fill="none" stroke="#ece4d3" stroke-width="16"/>`}<text x="50" y="52" text-anchor="middle" font-family="Montserrat,sans-serif" font-weight="700" font-size="16">${t}</text><text x="50" y="63" text-anchor="middle" font-size="7" fill="#6f6a5c">learners</text></svg>`}
-const stat=(l,v,s,c='')=>`<div class="card stat ${c}"><small>${l}</small><div class="big">${v}</div>${s?`<small>${s}</small>`:''}</div>`;
+  return `<svg viewBox="0 0 100 100" class="donut" role="img" aria-label="Lesson completion distribution">${t?d.map(([,v,c])=>{const l=C*v/t,s=`<circle cx="50" cy="50" r="${R}" fill="none" stroke="${c}" stroke-width="16" stroke-dasharray="${l} ${C-l}" stroke-dashoffset="${-o}" transform="rotate(-90 50 50)"/>`;o+=l;return s}).join(''):`<circle cx="50" cy="50" r="${R}" fill="none" stroke="#ece4d3" stroke-width="16"/>`}<text x="50" y="52" text-anchor="middle" font-family="'Cherry Bomb One', cursive, sans-serif" font-weight="700" font-size="18" fill="var(--ink-secondary)">${t}</text><text x="50" y="65" text-anchor="middle" font-family="'Quicksand', sans-serif" font-weight="600" font-size="8" fill="var(--ink-mute)">learners</text></svg>`}
+const stat=(l,v,s,c='')=>`<div class="card stat ${c}"><small>${l}</small><div class="big">${v}</div>${s?`<div class="sub">${s}</div>`:''}</div>`;
 const chip=s=>`<span class="chip ${s==='Completed'?'ok':s==='In Progress'?'mid':''}">${esc(s)}</span>`;
 
 // ---- overview ----
@@ -50,34 +50,34 @@ async function overview(){
   const d=await rpc('admin_dashboard_summary'),s=d.stats,q=d.quiz,l=d.lesson_distribution;
   $('#main').innerHTML=`
   <div class="grid g3">
-    ${stat('Registered learners',num(s.total_users),`${s.pct_one_lesson==null?'–':s.pct_one_lesson}% finished at least one lesson`,'lead')}
-    ${stat('Active in last 7 days',num(s.active_7d),`${num(s.active_30d)} in the last 30 days`)}
-    ${stat('Lessons completed',num(s.lessons_completed))}
-    ${stat('Average assessment accuracy',pct(s.avg_accuracy))}
-    ${stat('Quizzes completed',num(s.quizzes_completed))}
-    ${stat('Minigames completed',num(s.minigames_completed))}
-    ${stat('Average learning time per user',dur(s.avg_time_seconds))}
-    ${stat('Average current streak',(s.avg_current_streak??'–')+' days')}
+    ${stat('Registered Learners',num(s.total_users),`${s.pct_one_lesson==null?'–':s.pct_one_lesson}% finished at least one lesson`,'lead')}
+    ${stat('Active (Last 7 Days)',num(s.active_7d),`${num(s.active_30d)} in the last 30 days`)}
+    ${stat('Lessons Completed',num(s.lessons_completed))}
+    ${stat('Average Accuracy',pct(s.avg_accuracy))}
+    ${stat('Quizzes Completed',num(s.quizzes_completed))}
+    ${stat('Minigames Completed',num(s.minigames_completed))}
+    ${stat('Avg Learning Time',dur(s.avg_time_seconds))}
+    ${stat('Average Streak',(s.avg_current_streak??'–')+' days')}
   </div>
   <div class="grid g2">
-    <div><h2>Lesson completion</h2><div class="card donutwrap">
-      ${donut([['',l.not_started,'#d8c9ad'],['',l.in_progress,'var(--gold)'],['',l.completed,'var(--teal)']])}
+    <div><h2>Lesson Completion</h2><div class="card donutwrap">
+      ${donut([['',l.not_started,'#E2D7C0'],['',l.in_progress,'var(--accent-gold)'],['',l.completed,'var(--accent-green)']])}
       <div class="legend">
-        <div><i style="background:#d8c9ad"></i>Not started <b>${num(l.not_started)}</b></div>
-        <div><i style="background:var(--gold)"></i>Started, not finished <b>${num(l.in_progress)}</b></div>
-        <div><i style="background:var(--teal)"></i>Completed all lessons <b>${num(l.completed)}</b></div>
+        <div><i style="background:#E2D7C0"></i>Not started <b>${num(l.not_started)}</b></div>
+        <div><i style="background:var(--accent-gold)"></i>Started, not finished <b>${num(l.in_progress)}</b></div>
+        <div><i style="background:var(--accent-green)"></i>Completed all lessons <b>${num(l.completed)}</b></div>
       </div></div></div>
-    <div><h2>Module completion</h2><div class="card">
+    <div><h2>Module Completion</h2><div class="card">
       <p class="sub" style="margin-top:0">Share of learners who finished each module</p>
       ${d.modules.length?d.modules.map(m=>bar(esc(m.title),m.pct_completed)).join(''):'<p class="sub">No modules yet.</p>'}
     </div></div>
   </div>
-  <h2>Quiz performance</h2>
+  <h2>Quiz Performance</h2>
   <div class="card">
-    <div class="kpis"><div><small>Average score</small><b>${pct(q.avg_score)}</b></div><div><small>Passing rate</small><b>${pct(q.pass_rate)}</b></div>
-      <div><small>Camera accuracy</small><b>${pct(q.camera_accuracy)}</b></div><div><small>Multiple-choice accuracy</small><b>${pct(q.mc_accuracy)}</b></div></div>
-    <div class="grid g2"><div><h3>First vs latest attempt</h3>${bar('First attempt',q.first_attempt,'var(--sage)')}${bar('Latest attempt',q.latest_attempt)}</div>
-    <div><h3>Assessment type</h3>${bar('Camera (signing)',q.camera_accuracy,'var(--clay)')}${bar('Multiple choice',q.mc_accuracy,'var(--gold)')}</div></div>
+    <div class="kpis"><div><small>Average Score</small><b>${pct(q.avg_score)}</b></div><div><small>Passing Rate</small><b>${pct(q.pass_rate)}</b></div>
+      <div><small>Camera Accuracy</small><b>${pct(q.camera_accuracy)}</b></div><div><small>Multiple Choice Accuracy</small><b>${pct(q.mc_accuracy)}</b></div></div>
+    <div class="grid g2"><div><h3>First vs Latest Attempt</h3>${bar('First attempt',q.first_attempt,'var(--accent-sage)')}${bar('Latest attempt',q.latest_attempt,'var(--accent-green)')}</div>
+    <div><h3>Assessment Type</h3>${bar('Camera (signing)',q.camera_accuracy,'var(--accent-clay)')}${bar('Multiple choice',q.mc_accuracy,'var(--accent-gold)')}</div></div>
   </div>`;
 }
 

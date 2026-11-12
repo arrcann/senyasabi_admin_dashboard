@@ -1,30 +1,65 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SenyaSabi Admin</title>
-<link rel="icon" type="image/png" href="/favicon.png">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-</head><body>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SenyaSabi Admin Dashboard</title>
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
 
 <div id="login" class="login" hidden>
-  <div class="card">
-    <img src="/logo-dark.png" alt="SenyaSabi" style="height:46px;width:auto;display:block">
-    <p class="sub">Admin sign in</p>
-    <form id="lf"><label for="em">Email</label><input id="em" type="email" required autocomplete="username">
-    <label for="pw">Password</label><input id="pw" type="password" required autocomplete="current-password">
-    <div class="err" id="err"></div>
-    <button class="btn" style="width:100%">Sign in</button></form>
-    <p id="demonote" class="sub" hidden>Supabase isn’t configured yet, so this runs on sample data.</p>
-    <button id="demobtn" class="btn alt" style="width:100%;margin-top:8px" hidden>Open demo</button>
+  <div class="card login-card">
+    <div class="login-header">
+      <img src="/mascot.png" alt="Senya mascot" class="login-mascot">
+      <img src="/logo-dark.png" alt="SenyaSabi" class="login-logo">
+      <h1 class="brand-title">Admin Portal</h1>
+      <p class="sub">Building Bridges, One Sign at a Time</p>
+    </div>
+    <form id="lf">
+      <label for="em">Admin Email</label>
+      <input id="em" type="email" placeholder="admin@senyasabi.com" required autocomplete="username">
+      <label for="pw">Password</label>
+      <input id="pw" type="password" placeholder="••••••••" required autocomplete="current-password">
+      <div class="err" id="err"></div>
+      <button class="btn btn-primary" style="width:100%">Sign In</button>
+    </form>
+    <div id="demonote" class="demo-box" hidden>
+      <p class="sub">Supabase credentials not detected yet. You can explore the dashboard with pre-loaded mock data.</p>
+      <button id="demobtn" class="btn btn-accent" style="width:100%; margin-top:8px" hidden>Explore Demo Data</button>
+    </div>
   </div>
 </div>
 
 <div id="app" hidden>
-  <header><div class="brand"><img src="/logo-light.png" alt="SenyaSabi"><span>Admin</span></div>
-    <nav><button data-v="overview" class="on">Overview</button><button data-v="users">Learners</button></nav>
-    <span id="who" class="sub" style="color:#cfd8d4"></span><button class="ghost" id="out">Sign out</button></header>
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <img src="/logo-light.png" alt="SenyaSabi Logo" class="brand-logo">
+        <div class="brand-text">
+          <span class="brand-name">SenyaSabi</span>
+          <span class="brand-badge">ADMIN</span>
+        </div>
+      </div>
+      <nav>
+        <button data-v="overview" class="on">Overview</button>
+        <button data-v="users">Learners</button>
+      </nav>
+      <div class="header-user">
+        <div class="user-pill">
+          <span class="status-dot"></span>
+          <span id="who" class="user-email"></span>
+        </div>
+        <button class="ghost" id="out">Sign Out</button>
+      </div>
+    </div>
+  </header>
   <main id="main"></main>
 </div>
 
 <script type="module" src="/src/main.js"></script>
-</body></html>
+</body>
+</html>
