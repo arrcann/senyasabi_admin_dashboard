@@ -106,12 +106,13 @@ header {
 .brand {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .brand-logo {
-  height: 34px;
-  width: auto;
+  height: 38px;
+  width: 38px;
+  object-fit: contain;
   display: block;
 }
 
@@ -122,18 +123,19 @@ header {
 
 .brand-name {
   font-family: "Cherry Bomb One", cursive, sans-serif;
-  font-size: 20px;
-  line-height: 1.1;
+  font-size: 22px;
+  line-height: 1;
   color: #FFFDF0;
   letter-spacing: 0.03em;
 }
 
 .brand-badge {
   font-family: "Plus Jakarta Sans", sans-serif;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 800;
   color: var(--bg-accent-gold);
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
+  margin-top: 1px;
 }
 
 nav {
