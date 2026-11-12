@@ -80,6 +80,11 @@ async function overview(){
       ${d.modules.length?d.modules.map(m=>bar(esc(m.title),m.pct_completed)).join(''):'<p class="sub">No modules yet.</p>'}
     </div></div>
   </div>
+  <h2>Lesson Progress</h2>
+  <div class="card">
+    <p class="sub" style="margin-top:0">Share of learners who finished each lesson</p>
+    ${(d.lessons||[]).length?d.lessons.map(l=>bar(`${esc(l.module_title)} · ${esc(l.title)}`,l.pct_completed)).join(''):'<p class="sub">No lessons yet.</p>'}
+  </div>
   <h2>Quiz Performance</h2>
   <div class="card">
     <div class="kpis"><div><small>Average Score</small><b>${pct(q.avg_score)}</b></div><div><small>Passing Rate</small><b>${pct(q.pass_rate)}</b></div>
@@ -134,6 +139,7 @@ const demo=(()=>{let s=7;const r=()=>(s=s*16807%2147483647)/2147483647,ago=d=>ne
     admin_dashboard_summary:async()=>({stats:{total_users:U.length,lessons_completed:sum('lessons_completed'),avg_accuracy:avg('average_accuracy'),quizzes_completed:sum('quizzes_completed'),minigames_completed:sum('minigames_completed'),avg_time_seconds:Math.round(sum('total_time_spent_seconds')/U.length),avg_current_streak:avg('current_streak'),active_7d:14,active_30d:25,pct_one_lesson:84.4},
       lesson_distribution:{not_started:5,in_progress:22,completed:5},
       modules:M.map((title,i)=>({title,pct_completed:+(78-i*14+r()*6).toFixed(1)})),
+      lessons:M.flatMap((mt,mi)=>Array.from({length:4},(_,i)=>({module_title:mt,title:`Lesson ${i+1}`,pct_completed:+Math.max(1,(82-mi*16-i*7)+r()*9).toFixed(1)}))),
       quiz:{avg_score:74.2,pass_rate:68.5,camera_accuracy:66.8,mc_accuracy:81.3,first_attempt:62.4,latest_attempt:77.9}}),
     admin_user_profile:async({p_user_id})=>({user:U.find(u=>u.user_id===p_user_id),
       modules:M.map((title,i)=>{const c=Math.max(0,Math.min(100,Math.round(100-i*24+r()*20)));return{title,total_lessons:6,completed_lessons:Math.round(c/100*6),completion_percentage:c,status:c>=100?'Completed':c>0?'In Progress':'Not Started'}}),

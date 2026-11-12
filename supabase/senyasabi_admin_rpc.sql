@@ -120,6 +120,20 @@ begin
     where m.is_active and not m.is_deleted
     group by m.module_id, m.title, m.module_order
   ),
+  ln as (
+    select l.lesson_id, l.title, m.title as module_title,
+      m.module_order, l.lesson_order,
+      round(100.0 * count(distinct lp.user_id) filter (where lp.status = 'Completed')
+            / nullif((select count(*) from s), 0), 1) as pct_completed
+    from public.lessons l
+    join public.modules m on m.module_id = l.parent_module
+    left join public.lesson_progress lp
+      on lp.lesson_id = l.lesson_id
+     and lp.user_id in (select user_id from s)
+    where l.is_active and not l.is_deleted
+      and m.is_active and not m.is_deleted
+    group by l.lesson_id, l.title, m.title, m.module_order, l.lesson_order
+  ),
   qa as (
     select q.* from public.quiz_attempts q
     where q.completed_at is not null and q.percentage is not null
@@ -151,6 +165,10 @@ begin
       'completed',   (select count(*) from ls, lessons_total t where t.n > 0 and done >= t.n)
     ),
     'modules', (select coalesce(jsonb_agg(to_jsonb(mp) order by module_order), '[]'::jsonb) from mp),
+    'lessons', (select coalesce(jsonb_agg(jsonb_build_object(
+        'title', ln.title, 'module_title', ln.module_title,
+        'pct_completed', ln.pct_completed)
+        order by ln.module_order, ln.lesson_order), '[]'::jsonb) from ln),
     'quiz', jsonb_build_object(
       'avg_score',       (select round(avg(percentage), 1) from qa),
       'pass_rate',       (select round(100.0 * count(*) filter (where passed) / nullif(count(*), 0), 1) from qa),
