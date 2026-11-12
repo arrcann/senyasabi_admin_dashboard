@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SenyaSabi Admin</title>
+<link rel="icon" type="image/png" href="/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+</head><body>
+
+<div id="login" class="login" hidden>
+  <div class="card">
+    <img src="/logo-dark.png" alt="SenyaSabi" style="height:46px;width:auto;display:block">
+    <p class="sub">Admin sign in</p>
+    <form id="lf"><label for="em">Email</label><input id="em" type="email" required autocomplete="username">
+    <label for="pw">Password</label><input id="pw" type="password" required autocomplete="current-password">
+    <div class="err" id="err"></div>
+    <button class="btn" style="width:100%">Sign in</button></form>
+    <p id="demonote" class="sub" hidden>Supabase isn’t configured yet, so this runs on sample data.</p>
+    <button id="demobtn" class="btn alt" style="width:100%;margin-top:8px" hidden>Open demo</button>
+  </div>
+</div>
+
+<div id="app" hidden>
+  <header><div class="brand"><img src="/logo-light.png" alt="SenyaSabi"><span>Admin</span></div>
+    <nav><button data-v="overview" class="on">Overview</button><button data-v="users">Learners</button></nav>
+    <span id="who" class="sub" style="color:#cfd8d4"></span><button class="ghost" id="out">Sign out</button></header>
+  <main id="main"></main>
+</div>
+
+<script type="module" src="/src/main.js"></script>
+</body></html>
